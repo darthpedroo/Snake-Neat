@@ -36,7 +36,17 @@ class Grid:
         self.__rows = rows
         self.__columns = columns
         self.__grid = []
+        self.__grid_rect = []
         self.create_grid()
+
+
+    def add_to_grid_rect(self, inner_rect):
+        self.__grid_rect.append(inner_rect)
+
+
+    @property
+    def grid_rect(self):
+        return self.__grid_rect
 
     @property
     def rows(self):

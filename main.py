@@ -19,11 +19,11 @@ rect_width = WIDTH / num_columns
 rect_height = HEIGHT / num_rows
 
 MOVE_INTERVAL = 0.07  # Time in seconds between moves
+TOILET_INTERVAL = 5
 time_since_last_move = 0  # Timer to track time since the last move
 
+
 snake = Snake()
-grid_rect = []
-total_collisions = []
 
 
 # HACER QUE SE HAGA UN SET DE LA SNAKE Y LA MANZANA EN EL GRID. ENTONCES VA A DECIR [SNAKE, BLOCK, APPLE]
@@ -39,7 +39,7 @@ def draw_grid():
             
             grid.get_block(row_index, col_index).rect = [outer_rect, inner_rect]
 
-            grid_rect.append(inner_rect)
+            grid.add_to_grid_rect(inner_rect)
 
             pygame.draw.rect(screen, "black", outer_rect)
             pygame.draw.rect(screen, grid.grid[row_index][col_index].color, inner_rect)
@@ -49,24 +49,17 @@ def draw_snake(snake):
     pygame.draw.rect(screen, snake.color, snake_head)
     return snake_head
 
-def from_id_to_row_and_col(id):
-    row = id//10
-    col = id%10
-    return row, col
+
 
 def check_collision(snake_head):
-    
-    for id, rect in enumerate(grid_rect):
-        #print(id, ":" ,rect)
+    global time_since_last_skibidi
+    for id, rect in enumerate(grid.grid_rect):
         if rect.colliderect(snake_head):
-            block_collided = grid.search_rect_from_block(id,rect)
-
-            print("BLOCK COLLIDED: ", block_collided)
+            block_collided = grid.search_rect_from_block(id,rect)            
+            if block_collided is not None:
+                block_collided.color = "red"
+   
             
-            if block_collided is not None and block_collided not in total_collisions:
-               # print("Block collided", block_collided)
-                block_collided.color = "blue"
-                total_collisions.append(block_collided)
         
 
 while running:
@@ -93,7 +86,8 @@ while running:
     draw_grid()
     snake_head = draw_snake(snake)
     check_collision(snake_head)
-    grid_rect = []
+    #grid.grid_rect = [] AGREGAR SETER
+    
     pygame.display.flip()
     dt = clock.tick(60) / 1000
 
