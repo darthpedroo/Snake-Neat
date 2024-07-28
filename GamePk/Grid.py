@@ -1,6 +1,6 @@
 import random
-from Game.Block import Block
-from Game.Apple import Apple
+from GamePk.Block import Block
+from GamePk.Apple import Apple
 
 class Grid:
     BACKGROUND_COLOR = "GREEN"

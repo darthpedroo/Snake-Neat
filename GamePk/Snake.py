@@ -4,8 +4,17 @@ class Snake:
         self.__x_pos = 450
         self.__y_pos = 450
         self.__vel = 90
+        self.__position = [(self.y_pos/90), (self.x_pos/90)]
         self.__direction = [0,0]
         self.__color = "red"
+
+    @property
+    def position(self):
+        return self.__position
+    
+    @position.setter
+    def position(self, new_position):
+        self.__position = new_position
 
     @property
     def color(self):
@@ -42,6 +51,7 @@ class Snake:
     def update_position(self):
        self.x_pos += self.direction[0]*self.vel
        self.y_pos += self.direction[1]*self.vel
+       self.position = [(self.y_pos/90), (self.x_pos/90)]
 
     
 

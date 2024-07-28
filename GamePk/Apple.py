@@ -1,4 +1,4 @@
-from Game.Block import Block
+from GamePk.Block import Block
 class Apple(Block):
     def __init__(self, row, column) -> None:
         color = "white"  # Set the default color for Apple
