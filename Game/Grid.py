@@ -1,48 +1,31 @@
-class Block:
-    def __init__(self, color, row, column) -> None:
-        self.__color = color
-        self.__position = (row, column)
-        self.__rect = [] #outer_rect - inner_rect
-    
-    @property
-    def rect(self):
-        return self.__rect
-
-    @rect.setter
-    def rect(self,rect) -> list:
-        self.__rect = rect
-
-    @property
-    def color(self):
-        return self.__color
-    
-    @property
-    def position(self):
-        return self.__position
-    
-    @color.setter
-    def color(self,color):
-        self.__color = color
-
-class Apple(Block):
-    def __init__(self, row, column) -> None:
-        super().__init__(row, column)
-        self.__color = "white"
-    
-
+import random
+from Game.Block import Block
+from Game.Apple import Apple
 
 class Grid:
+    BACKGROUND_COLOR = "GREEN"
     def __init__(self, rows, columns) -> None:
         self.__rows = rows
         self.__columns = columns
         self.__grid = []
         self.__grid_rect = []
+        self.__apple_position = []
         self.create_grid()
 
 
     def add_to_grid_rect(self, inner_rect):
         self.__grid_rect.append(inner_rect)
 
+    def set_block(self,position ,block_class):
+        self.__grid[position[0]][position[1]] = block_class
+
+    @property
+    def apple_position(self):
+        return self.__apple_position
+
+    @apple_position.setter
+    def apple_position(self, position) -> list:
+        self.__apple_position = position
 
     @property
     def grid_rect(self):
@@ -59,6 +42,19 @@ class Grid:
     @property
     def grid(self):
         return self.__grid
+    
+    def move_apple(self):
+        block = Block(self.BACKGROUND_COLOR,self.apple_position[0],self.apple_position[1])
+        self.set_block(self.apple_position, block)
+        x = random.randint(0,9)
+        y = random.randint(0,9)
+        pos = [x,y]
+        apple = Apple(x ,y)
+        self.apple_position = pos
+        self.set_block(self.apple_position, apple)
+
+
+        pass
 
     def create_grid(self):
         for row in range(self.rows):
@@ -66,6 +62,13 @@ class Grid:
             for column in range(self.columns):
                 current_block = Block("green", row, column)
                 self.grid[row].append(current_block)
+        x = random.randint(0,9)
+        y = random.randint(0,9)
+        pos = [x,y]
+        apple = Apple(x ,y)
+        self.apple_position = pos
+        self.set_block(apple.position,apple)
+        
 
     def search_block(self,row,column):
         return self.grid[row][column]

@@ -1,7 +1,8 @@
+import random
 class Snake:
     def __init__(self):
-        self.__x_pos = 0
-        self.__y_pos = 0
+        self.__x_pos = 450
+        self.__y_pos = 450
         self.__vel = 90
         self.__direction = [0,0]
         self.__color = "red"
