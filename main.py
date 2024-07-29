@@ -27,16 +27,12 @@ player = Player("Porky")
 screen = Screen(WIDTH,HEIGHT)
 game = Game(screen=screen,grid=grid,player=player,snake=snake )
 
-game.run_game()
+#game.run_game_human()
 
 
 
-def run(config_file):
-    """
-    runs the NEAT algorithm to train a neural network to play flappy bird.
-    :param config_file: location of config file
-    :return: None
-    """
+def run(config_file, game):
+
     config = neat.config.Config(neat.DefaultGenome, neat.DefaultReproduction,
                          neat.DefaultSpeciesSet, neat.DefaultStagnation,
                          config_file)
@@ -49,22 +45,16 @@ def run(config_file):
     stats = neat.StatisticsReporter()
     p.add_reporter(stats)
     #p.add_reporter(neat.Checkpointer(5))
-
     # Run for up to 50 generations.
-    winner = p.run(snake_game, 500)
-
-    # show final stats
-    print('\nBest genome:\n{!s}'.format(winner))
-
-    with open("best_genome.pickle", "wb") as f:
-        pickle.dump(winner, f)
+    winner = p.run(game.run_game_ai, 50000)
 
     # show final stats
     print('\nBest genome:\n{!s}'.format(winner))
 
 
 
-#if __name__ == '__main__':
-#    local_dir = os.path.dirname(__file__)
-#    config_path = os.path.join(local_dir, 'config-feedforward.txt')
-#    run(config_path)
+
+if __name__ == '__main__':
+    local_dir = os.path.dirname(__file__)
+    config_path = os.path.join(local_dir, 'config-feedforward.txt')
+    run(config_path, game=game)
